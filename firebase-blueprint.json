@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "Fruit": {
+      "title": "Fruit",
+      "description": "Available fruits in the store.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the fruit" },
+        "description": { "type": "string", "description": "Description of the fruit" },
+        "price": { "type": "number", "description": "Price per unit" },
+        "unit": { "type": "string", "description": "Unit of measurement (e.g., kg, box, piece)" },
+        "category": { "type": "string", "description": "Category (e.g., Citrus, Berry, Tropical)" },
+        "image": { "type": "string", "description": "URL to the fruit image" },
+        "season": { "type": "string", "description": "Availability season" },
+        "stock": { "type": "number", "description": "Available stock quantity" }
+      },
+      "required": ["name", "price", "unit", "category", "image"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer orders history.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "savings": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "shippingAddress": {
+          "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zipCode": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "items", "totalAmount", "status", "paymentMethod", "shippingAddress", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "User reviews for a fruit.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "rating": { "type": "number", "minimum": 1, "maximum": 5 },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "rating", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/fruits": {
+      "schema": "Fruit",
+      "description": "Public collection of available fruits."
+    },
+    "/fruits/{fruitId}/reviews": {
+      "schema": "Review",
+      "description": "User reviews for a specific fruit."
+    },
+    "/orders": {
+      "schema": "Order",
+      "description": "Private collection of user orders."
+    },
+    "/users": {
+      "schema": "User",
+      "description": "User profile storage."
+    }
+  }
+}
